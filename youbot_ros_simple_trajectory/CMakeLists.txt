@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   trajectory_msgs
   brics_actuator
+  dynamic_reconfigure
 )
 
 ## System dependencies are found with CMake's conventions
@@ -68,10 +69,17 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   control_msgs
-# )
+ #generate_messages(
+  #DEPENDENCIES
+  #control_msgs
+  #trajectory_msgs
+ #)
+
+generate_dynamic_reconfigure_options(
+  cfg/youbot_arm_gripper.cfg
+  
+  #...
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -83,10 +91,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-  LIBRARIES youbot_ros_simple_trajectory
-  CATKIN_DEPENDS actionlib control_msgs roscpp rospy trajectory_msgs brics_actuator
-  DEPENDS system_lib
+ #INCLUDE_DIRS include
+ #LIBRARIES youbot_ros_simple_trajectory
+ #CATKIN_DEPENDS actionlib control_msgs roscpp rospy trajectory_msgs brics_actuator dynamic_reconfigure
+ #DEPENDS system_lib
 )
 
 ###########
@@ -100,6 +108,8 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+include_directories(${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake)
+
 ## Declare a cpp library
 # add_library(youbot_ros_simple_trajectory
 #   src/${PROJECT_NAME}/youbot_ros_simple_trajectory.cpp
@@ -107,13 +117,18 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(youbot_ros_p2p src/youbot_ros_simple_trajectory.cpp)
+add_dependencies(youbot_ros_p2p youbot_ros_simple_trajectory_generate_messages_cpp)
 
 add_executable(youbot_ctl src/youbot_trajectory_controller.cpp)
+add_dependencies(youbot_ctl youbot_ros_simple_trajectory_generate_messages_cpp)
+
+add_executable(dy_server src/dy_server.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
- #add_dependencies(youbot_ros_p2p youbot_ros_simple_trajectory_generate_messages_cpp)
 
+add_dependencies(dy_server ${PROJECT_NAME}_gencfg)
+add_dependencies(dy_server youbot_ros_simple_trajectory_generate_messages_cpp)
 ## Specify libraries to link a library or executable target against
  target_link_libraries(youbot_ros_p2p
    ${catkin_LIBRARIES}
@@ -123,6 +138,9 @@ add_executable(youbot_ctl src/youbot_trajectory_controller.cpp)
    ${catkin_LIBRARIES}
  )
 
+target_link_libraries(dy_server
+   ${catkin_LIBRARIES}
+ )
 #############
 ## Install ##
 #############

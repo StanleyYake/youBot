@@ -32,7 +32,6 @@ ros::Publisher gripperPositionPublisher;
 
 vector<control_msgs::FollowJointTrajectoryActionGoal::ConstPtr> trajectories;
 
-
 void trajectoryCallback(const control_msgs::FollowJointTrajectoryActionGoal::ConstPtr& msg)
 {
   ROS_INFO("callback: Trajectory received");
@@ -125,6 +124,7 @@ int main(int argc, char **argv) {
   moveToGripperInitPos(gripper_command);
   //ros::Duration(10).sleep();
   ROS_INFO("Init Pos should be reached");
+
 
 /*
   while (n.ok())
