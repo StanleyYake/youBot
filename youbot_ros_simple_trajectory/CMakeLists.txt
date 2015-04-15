@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   trajectory_msgs
   brics_actuator
   dynamic_reconfigure
+  std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -48,11 +50,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+ #add_message_files(
+  # FILES
+   #youbot_ros_simple_trajectory_Data.msg
+
+ #)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -91,9 +93,9 @@ generate_dynamic_reconfigure_options(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
- #INCLUDE_DIRS include
+ INCLUDE_DIRS include
  #LIBRARIES youbot_ros_simple_trajectory
- #CATKIN_DEPENDS actionlib control_msgs roscpp rospy trajectory_msgs brics_actuator dynamic_reconfigure
+ CATKIN_DEPENDS actionlib control_msgs roscpp rospy trajectory_msgs brics_actuator dynamic_reconfigure std_msgs message_runtime
  #DEPENDS system_lib
 )
 
@@ -117,16 +119,14 @@ include_directories(${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake)
 
 ## Declare a cpp executable
 add_executable(youbot_ros_p2p src/youbot_ros_simple_trajectory.cpp)
-add_dependencies(youbot_ros_p2p youbot_ros_simple_trajectory_generate_messages_cpp)
+
 
 add_executable(youbot_ctl src/youbot_trajectory_controller.cpp)
 add_dependencies(youbot_ctl youbot_ros_simple_trajectory_generate_messages_cpp)
-
-add_executable(dy_server src/dy_server.cpp)
-
+add_dependencies(youbot_ctl ${PROJECT_NAME}_gencfg)
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-
+add_executable(dy_server src/dy_server.cpp)
 add_dependencies(dy_server ${PROJECT_NAME}_gencfg)
 add_dependencies(dy_server youbot_ros_simple_trajectory_generate_messages_cpp)
 ## Specify libraries to link a library or executable target against
