@@ -3,6 +3,7 @@
 
 #include <ros/ros.h>
 #include <control_msgs/FollowJointTrajectoryAction.h>
+#include <control_msgs/JointTolerance.h>
 #include <actionlib/client/simple_action_client.h>
 
 typedef actionlib::SimpleActionClient< control_msgs::FollowJointTrajectoryAction > TrajClient;
@@ -77,19 +78,58 @@ public:
 //    goal.trajectory.points[ind].positions[6] = 0.0;
     // Velocities
     goal.trajectory.points[ind].velocities.resize(5);
-    for (size_t j = 0; j < 5; ++j)
+    for (size_t a = 0; a < 5; ++a)
     {
-      goal.trajectory.points[ind].velocities[j] = 0.0;
+      goal.trajectory.points[ind].velocities[a] = 0.0;
     }
     
     goal.trajectory.points[ind].accelerations.resize(5);
-    for (size_t j = 0; j < 5; ++j)
+    for (size_t b = 0; b < 5; ++b)
     {
-      goal.trajectory.points[ind].accelerations[j] = 0.001;
+      goal.trajectory.points[ind].accelerations[b] = 0.001;
     }
     
     // To be reached 1 second after starting along the trajectory
     goal.trajectory.points[ind].time_from_start = ros::Duration(5.0);
+    
+//	goal.goal_tolerance.push_back('arm_joint_1', 0.1, 0.01, 0.001);
+
+//	control_msgs::JointTolerance_<std::allocator<void> > jtolerance;
+//	jtolerance.name  nm;
+//	nm = "arm_joint_1";
+//	goal.goal_tolerance.push_back(&jtolerance);
+
+//	control_msgs::JointTolerance jt;
+//	jt.name.resize[5];
+//	for (size_t q = 0; q < 5; ++q)
+//    {
+//      jt.name[q] = goal.trajectory.joint_names[q];
+//    }
+//	jt.position.resize[5];
+//	for (size_t l = 0; l < 5; ++l)
+//    {
+//      jt.position[l] = 0.01;
+//    }
+//    jt.acceleration.resize[5];
+//	for (size_t m = 0; m < 5; ++m)
+//    {
+//      jt.acceleration[m] = 0.001;
+//    }
+
+	control_msgs::JointTolerance jt;
+	jt.name = "arm_joint_5";
+	jt.position = 0.1;
+	jt.velocity = 0.01;
+	jt.acceleration = 0.001;
+	goal.goal_tolerance.push_back(jt);
+	
+//	control_msgs::JointTolerance jt2;
+//	jt.name = "arm_joint_2";
+//	jt.position = 0.1;
+//	jt.velocity = 0.01;
+//	jt.acceleration = 0.001;
+//	goal.goal_tolerance.push_back(jt2);
+//	std::cout<< "______________________jt_____________"<<jt;
 	
 	// 2 trajectory point
     // Positions
@@ -104,18 +144,18 @@ goal.trajectory.points[ind].positions[0] = 2.562;
 
     // Velocities
     goal.trajectory.points[ind].velocities.resize(5);
-    for (size_t j = 0; j < 5; ++j)
+    for (size_t c = 0; c < 5; ++c)
     {
-      goal.trajectory.points[ind].velocities[j] = 0.005;
+      goal.trajectory.points[ind].velocities[c] = 0.005;
     }
     // Acceleration
     goal.trajectory.points[ind].accelerations.resize(5);
-    for (size_t j = 0; j < 5; ++j)
+    for (size_t d = 0; d < 5; ++d)
     {
-      goal.trajectory.points[ind].accelerations[j] = 0.0;
+      goal.trajectory.points[ind].accelerations[d] = 0.0;
     }
 	// To be reached 1 second after starting along the trajectory
-    goal.trajectory.points[ind].time_from_start = ros::Duration(15.0);
+    goal.trajectory.points[ind].time_from_start = ros::Duration(20.0);
 
 	// 3 trajectory point
     // Positions
@@ -130,18 +170,18 @@ goal.trajectory.points[ind].positions[0] = 2.94961;
 
     // Velocities
     goal.trajectory.points[ind].velocities.resize(5);
-    for (size_t j = 0; j < 5; ++j)
+    for (size_t e = 0; e < 5; ++e)
     {
-      goal.trajectory.points[ind].velocities[j] = 0.005;
+      goal.trajectory.points[ind].velocities[e] = 0.005;
     }
     // Acceleration
     goal.trajectory.points[ind].accelerations.resize(5);
-    for (size_t j = 0; j < 5; ++j)
+    for (size_t f = 0; f < 5; ++f)
     {
-      goal.trajectory.points[ind].accelerations[j] = 0.0;
+      goal.trajectory.points[ind].accelerations[f] = 0.0;
     }
 	// To be reached 1 second after starting along the trajectory
-    goal.trajectory.points[ind].time_from_start = ros::Duration(20.0);
+    goal.trajectory.points[ind].time_from_start = ros::Duration(30.0);
     // 4 trajectory point
     // Positions
     ind += 1;
@@ -161,13 +201,13 @@ goal.trajectory.points[ind].positions[0] = 0.11;
     }
     // Acceleration
     goal.trajectory.points[ind].accelerations.resize(5);
-    for (size_t j = 0; j < 5; ++j)
+    for (size_t h = 0; h < 5; ++h)
     {
-      goal.trajectory.points[ind].accelerations[j] = -0.001;
+      goal.trajectory.points[ind].accelerations[h] = -0.001;
     }
     
     // To be reached 2 seconds after starting along the trajectory
-    goal.trajectory.points[ind].time_from_start = ros::Duration(25.0);
+    goal.trajectory.points[ind].time_from_start = ros::Duration(40.0);
 
     //we are done; return the goal
     return goal;
