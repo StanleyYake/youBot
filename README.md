@@ -1,4 +1,3 @@
-Kuka_youbot
+KUKA youBot
 ===========
-
-youbot
+This package include some ROS code running on KUKA youBot.
