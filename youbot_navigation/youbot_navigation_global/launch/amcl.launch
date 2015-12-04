@@ -41,7 +41,8 @@
 
 <node pkg="amcl" type="amcl" name="amcl">
   <remap from="scan" to="base_scan"/>
-
+  <remap from="odom" to="yobuot_odom"/>
+  <param name="use_map_topic" value="true"/>
   <param name="odom_model_type" value="omni"/>
   <param name="odom_alpha5" value="0.1"/>
   <param name="transform_tolerance" value="0.2" />
