@@ -13,6 +13,7 @@
     <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
         <!-- Load common configuration files -->
 	<remap from="cmd_vel" to="move_base/cmd_vel"/> 
+	<remap from="odom" to="yobuot_odom"/> 
         <rosparam file="$(find youbot_navigation_common)/config/move_base_params.yaml" command="load" />
         <rosparam file="$(find youbot_navigation_common)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
         <rosparam file="$(find youbot_navigation_common)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
